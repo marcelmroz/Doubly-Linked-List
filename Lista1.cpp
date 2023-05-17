@@ -3,20 +3,30 @@ using namespace std;
 
 class Node {
 public:
-    int data;
+    int data = 0;
     Node* next;
     Node* prev;
 };
 
 class DoublyLinkedList {
 public:
-    Node* head;
-    DoublyLinkedList() {
-        head = NULL;
+    Node* head = nullptr;
+
+    DoublyLinkedList() = default;
+
+    ~DoublyLinkedList() {
+        Node* current = head;
+        while (current != nullptr) {
+            Node* next = current->next;
+            delete current;
+            current = next;
+        }
     }
+
     void Create() {
-        head = NULL;
+        head = nullptr;
     }
+
     void Add(int new_element) {
         Node* new_node = new Node();
         new_node->data = new_element;
@@ -66,15 +76,10 @@ public:
             new_node->prev = temp;
             return;
         }
-
         temp->next->prev = new_node;
-
         new_node->next = temp->next;
-
         temp->next = new_node;
-
         new_node->prev = temp;
-
     }
     int Get() {
         if (head == NULL) {
@@ -85,7 +90,6 @@ public:
 
         while (last->next != NULL)
             last = last->next;
-
         return last->data;
     }
 
@@ -100,12 +104,10 @@ public:
 
         for (int i = 0; i < position; i++)
             temp = temp->next;
-
         if (temp == NULL) {
             cout << "Position out of range" << endl;
             return -1;
         }
-
         return temp->data;
     }
 
@@ -115,15 +117,10 @@ public:
             cout << "List is empty" << endl;
             return -1;
         }
-
         Node* temp = head;
-
         head = head->next;
-
         int popped_data = temp->data;
-
         delete temp;
-
         return popped_data;
     }
 
@@ -135,19 +132,14 @@ public:
         }
 
         Node* temp = head;
-
         for (int i = 0; i < position - 1; i++)
             temp = temp->next;
 
         if (temp == NULL || temp->next == NULL)
             return;
-
         Node* node_to_delete = temp->next;
-
         node_to_delete->prev = temp;
-
         temp->next = node_to_delete->next;
-
         delete node_to_delete;
     }
 
@@ -156,7 +148,11 @@ public:
         if (head == NULL || head->next == NULL)
             return;
 
-        Node* i, * j, * minNode, * lastNode = head, * temp = NULL;
+        Node* i;
+        Node* j;
+        Node* minNode;
+        Node* lastNode = head;
+        Node* temp = NULL;
 
         while (lastNode->next != NULL)
             lastNode = lastNode->next;
@@ -174,11 +170,9 @@ public:
             if (minNode != i) {
 
                 temp = new Node();
-
                 temp->data = i->data;
                 i->data = minNode->data;
                 minNode->data = temp->data;
-
                 delete temp;
             }
         }
@@ -197,11 +191,9 @@ public:
             cout << temp->data << " ";
             temp = temp->next;
         }
-
         cout << endl;
     }
 };
-
 
 int main() {
 
